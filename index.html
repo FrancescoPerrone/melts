@@ -3,25 +3,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Machine Learning-Based Clustering of Micro-Analytical Mapping Data</title>
+    <title>Micro-Analytical Mapping Data – Interactive Cluster Explorer</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background: #f7f9fb;
-            color: #333;
+            background: #f9fbfd;
+            color: #2c3e50;
         }
         header {
-            background: #34495e;
+            background: linear-gradient(to right, #005c97, #363795);
             color: white;
             padding: 20px;
             text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         .subheader {
             font-size: 0.9em;
-            color: #ecf0f1;
+            color: #dcdde1;
             margin-top: 5px;
         }
         .container {
@@ -33,7 +34,7 @@
             margin-bottom: 20px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
         }
         label {
             font-weight: bold;
@@ -55,7 +56,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             cursor: pointer;
         }
         th, td {
@@ -64,11 +65,11 @@
             text-align: center;
         }
         th {
-            background-color: #3498db;
+            background-color: #2980b9;
             color: white;
         }
         tbody tr:nth-child(even) {
-            background-color: #f2f2f2;
+            background-color: #ecf0f1;
         }
         tbody tr:hover {
             background-color: #d6eaf8;
@@ -76,17 +77,23 @@
         .chart {
             margin-top: 20px;
         }
+        .note {
+            font-size: 0.85em;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>Machine Learning-Based Clustering of Micro-Analytical Mapping Data</h1>
-        <div class="subheader">Interactive Visualization Test Page — Francesco Perrone</div>
+        <h1>Micro-Analytical Mapping Data: Cluster Explorer</h1>
+        <div class="subheader">Test Visualization Interface by Francesco Perrone</div>
     </header>
     <div class="container">
         <div id="controls">
             <label for="clusterSelect">Choose Cluster:</label>
             <select id="clusterSelect" onchange="updatePlots()"></select>
+            <span id="validationNote" class="note"></span>
         </div>
 
         <div class="flex-display">
@@ -104,6 +111,8 @@
         </div>
 
         <div id="elementPieChart" class="chart" style="width:100%;height:500px;"></div>
+
+        <div id="multiClusterChart" class="chart" style="width:100%;height:500px;"></div>
     </div>
 
     <script>
@@ -162,6 +171,11 @@
                 row.onclick = () => showElementPie(el);
                 tbody.appendChild(row);
             });
+
+            // Validate total weight %
+            const total = values.reduce((sum, v) => sum + v, 0);
+            const note = document.getElementById("validationNote");
+            note.textContent = `Total Composition: ${total.toFixed(2)}% ` + (Math.abs(total - 100) > 2 ? "⚠️ Check for imbalance." : "✓ OK");
         }
 
         function showElementPie(element) {
@@ -179,6 +193,30 @@
                 hoverinfo: 'label+value'
             }], {
                 title: "Distribution of '" + element + "' across Clusters",
+                template: 'plotly_white'
+            });
+
+            showMultiClusterComparison(element);
+        }
+
+        function showMultiClusterComparison(element) {
+            const x = [];
+            const y = [];
+            for (const [cluster, composition] of Object.entries(data)) {
+                x.push(cluster);
+                y.push(composition[element] || 0);
+            }
+            Plotly.newPlot('multiClusterChart', [{
+                x: x,
+                y: y,
+                type: 'bar',
+                marker: {
+                    color: '#3498db'
+                }
+            }], {
+                title: "Bar Comparison: '" + element + "' Across Clusters",
+                xaxis: { title: "Cluster" },
+                yaxis: { title: "Weight %" },
                 template: 'plotly_white'
             });
         }
