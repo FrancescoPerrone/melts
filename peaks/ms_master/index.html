@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cluster Peaks Viewer</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <main class="container">
+    <aside id="formPanel" class="panel left">
+      <h2>Cluster Controls</h2>
+      <p>Select a cluster below:</p>
+      <div id="controls"></div>
+      <div id="peakEditor" class="editor-form"></div>
+    </aside>
+    <section id="plotPanel" class="panel right">
+      <h2>Visualization</h2>
+      <div id="plot" class="plot-container"></div>
+      <div id="peakTable"></div>
+    </section>
+  </main>
+
+  <button id="downloadBtn" aria-label="Download JSON data">Download JSON</button>
+  <script src="app.js"></script>
+</body>
+</html>

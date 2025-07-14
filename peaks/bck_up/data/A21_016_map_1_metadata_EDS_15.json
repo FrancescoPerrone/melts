@@ -1,0 +1,8 @@
+{
+    "energy_scale": 0.01,
+    "energy_offset": 0.0,
+    "spatial_scale_x": 2.487562189054726,
+    "spatial_scale_y": 2.487562189054726,
+    "units_signal": "keV",
+    "units_spatial": "\u03bcm"
+}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cluster Peaks Viewer</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <main class="container">
+    <aside id="formPanel" class="panel left">
+      <h2>Cluster Controls</h2>
+      <label for="clusterSelect">Select a cluster below:</label>
+      <select id="clusterSelect"></select>
+      <hr />
+
+      <h3>Add Peak Manually</h3>
+      <label for="manualEnergy">Energy (keV):</label>
+      <input type="number" id="manualEnergy" step="any" /><br />
+
+      <label for="manualIntensity">Intensity:</label>
+      <input type="number" id="manualIntensity" step="any" /><br />
+
+      <label for="manualElements">Elements:</label>
+      <input type="text" id="manualElements" placeholder="e.g. Fe (Kα)" /><br />
+
+      <label for="manualNote">Note:</label>
+      <textarea id="manualNote" rows="2" cols="25"></textarea><br />
+
+      <button id="addPeakButton">➕ Add Peak</button>
+    </aside>
+
+    <section id="plotPanel" class="panel right">
+      <h2>Visualization</h2>
+      <div id="plot" class="plot-container"></div>
+      <div id="peakTable"></div>
+      <button id="downloadButton">Download JSON</button>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

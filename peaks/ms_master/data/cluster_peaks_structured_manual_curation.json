@@ -1,0 +1,218 @@
+[
+  {
+    "cluster": 0,
+    "energy_keV": 1.49,
+    "intensity": 16.01,
+    "matches": [
+      {
+        "element": "Al",
+        "line": "K\u03b1",
+        "ref_energy": 1.49,
+        "delta": 0.0
+      },
+      {
+        "element": "Br",
+        "line": "L\u03b1",
+        "ref_energy": 1.48,
+        "delta": 0.01
+      }
+    ],
+    "is_ambiguous": true,
+    "notes": ""
+  },
+  {
+    "cluster": 0,
+    "energy_keV": 1.74,
+    "intensity": 310.28,
+    "matches": [
+      {
+        "element": "Si",
+        "line": "K\u03b1",
+        "ref_energy": 1.74,
+        "delta": 0.0
+      }
+    ],
+    "is_ambiguous": false,
+    "notes": ""
+  },
+  {
+    "cluster": 1,
+    "energy_keV": 1.74,
+    "intensity": 408.97,
+    "matches": [
+      {
+        "element": "Si",
+        "line": "K\u03b1",
+        "ref_energy": 1.74,
+        "delta": 0.0
+      }
+    ],
+    "is_ambiguous": false,
+    "notes": ""
+  },
+  {
+    "cluster": 1,
+    "energy_keV": 2.01,
+    "intensity": 36.57,
+    "matches": [
+      {
+        "element": "P",
+        "line": "K\u03b1",
+        "ref_energy": 2.01,
+        "delta": 0.0
+      }
+    ],
+    "is_ambiguous": false,
+    "notes": ""
+  },
+  {
+    "cluster": 2,
+    "energy_keV": 1.74,
+    "intensity": 288.42,
+    "matches": [
+      {
+        "element": "Si",
+        "line": "K\u03b1",
+        "ref_energy": 1.74,
+        "delta": 0.0
+      }
+    ],
+    "is_ambiguous": false,
+    "notes": ""
+  },
+  {
+    "cluster": 2,
+    "energy_keV": 2.01,
+    "intensity": 168.99,
+    "matches": [
+      {
+        "element": "P",
+        "line": "K\u03b1",
+        "ref_energy": 2.01,
+        "delta": 0.0
+      }
+    ],
+    "is_ambiguous": false,
+    "notes": ""
+  },
+  {
+    "cluster": 3,
+    "energy_keV": 1.74,
+    "intensity": 109.11,
+    "matches": [
+      {
+        "element": "Si",
+        "line": "K\u03b1",
+        "ref_energy": 1.74,
+        "delta": 0.0
+      }
+    ],
+    "is_ambiguous": false,
+    "notes": ""
+  },
+  {
+    "cluster": 3,
+    "energy_keV": 2.05,
+    "intensity": 15.98,
+    "matches": [
+      {
+        "element": "P",
+        "line": "K\u03b1",
+        "ref_energy": 2.01,
+        "delta": 0.04
+      }
+    ],
+    "is_ambiguous": false,
+    "notes": ""
+  },
+  {
+    "cluster": 3,
+    "energy_keV": 2.62,
+    "intensity": 9.94,
+    "matches": [
+      {
+        "element": "Cl",
+        "line": "K\u03b1",
+        "ref_energy": 2.62,
+        "delta": 0.0
+      }
+    ],
+    "is_ambiguous": false,
+    "notes": ""
+  },
+  {
+    "cluster": 4,
+    "energy_keV": 1.74,
+    "intensity": 467.01,
+    "matches": [
+      {
+        "element": "Si",
+        "line": "K\u03b1",
+        "ref_energy": 1.74,
+        "delta": 0.0
+      }
+    ],
+    "is_ambiguous": false,
+    "notes": ""
+  },
+  {
+    "cluster": 5,
+    "energy_keV": 1.74,
+    "intensity": 361.43,
+    "matches": [
+      {
+        "element": "Si",
+        "line": "K\u03b1",
+        "ref_energy": 1.74,
+        "delta": 0.0
+      }
+    ],
+    "is_ambiguous": false,
+    "notes": ""
+  },
+  {
+    "cluster": 6,
+    "energy_keV": 1.74,
+    "intensity": 318.68,
+    "matches": [
+      {
+        "element": "Si",
+        "line": "K\u03b1",
+        "ref_energy": 1.74,
+        "delta": 0.0
+      }
+    ],
+    "is_ambiguous": false,
+    "notes": ""
+  },
+  {
+    "cluster": 6,
+    "energy_keV": 2.01,
+    "intensity": 53.48,
+    "matches": [
+      {
+        "element": "P",
+        "line": "K\u03b1",
+        "ref_energy": 2.01,
+        "delta": 0.0
+      }
+    ],
+    "is_ambiguous": false,
+    "notes": ""
+  },
+  {
+    "cluster": 6,
+    "energy_keV": 2.9,
+    "intensity": 116.26,
+    "matches": [
+      {
+        "element": "S",
+        "line": "K\u03b2",
+        "ref_energy": 2.86,
+        "delta": 0.04
+      }
+    ],
+    "is_ambiguous": false,
+    "notes": ""
+  }
+]

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cluster Peaks Viewer</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      display: flex;
+      flex: 1;
+      height: 100%;
+    }
+
+    .panel {
+      padding: 10px;
+      overflow-y: auto;
+      height: 100%;
+    }
+
+    .left {
+      width: 30%;
+      border-right: 1px solid #ccc;
+      background-color: #f8f8f8;
+    }
+
+    .right {
+      width: 70%;
+    }
+
+    .plot-container {
+      height: 400px;
+      width: 100%;
+    }
+
+    #downloadBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 10;
+      background: #007bff;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #downloadBtn:hover {
+      background: #0056b3;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 8px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f0f0f0;
+    }
+
+    .ambiguous {
+      background-color: #ffe0e0;
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <aside id="formPanel" class="panel left">
+      <h2>Cluster Controls</h2>
+      <p>Select a cluster below:</p>
+      <div id="controls"></div>
+    </aside>
+    <section id="plotPanel" class="panel right">
+      <h2>Visualization</h2>
+      <div id="plot" class="plot-container"></div>
+      <div id="peakTable"></div>
+    </section>
+  </main>
+
+  <button id="downloadBtn" aria-label="Download JSON data">Download JSON</button>
+
+  <!-- Load app logic -->
+  <script src="app.js"></script>
+</body>
+</html>
