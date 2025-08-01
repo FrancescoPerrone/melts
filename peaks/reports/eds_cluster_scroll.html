@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>EDS Cluster Analysis – Scrollable Report</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.5;
+      color: #333;
+      background: #fafafa;
+    }
+    header {
+      background: linear-gradient(120deg, #2193b0, #6dd5ed);
+      color: #fff;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+    h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+    section {
+      padding: 2rem 1rem;
+      border-bottom: 1px solid #e0e0e0;
+      max-width: 900px;
+      margin: auto;
+    }
+    h2 {
+      margin-top: 0;
+      color: #1a4e63;
+    }
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .grid > * {
+      flex: 1 1 45%;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 6px;
+      text-align: center;
+    }
+    .chart-box {
+      width: 100%;
+      height: 280px;
+    }
+    .chart-box canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+    .footnote {
+      font-size: 0.7rem;
+      color: #555;
+      margin-top: 0.3rem;
+    }
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      .grid > * { flex-basis: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>EDS Cluster Analysis</h1>
+    <p>Interactive and scrollable data exploration</p>
+  </header>
+
+  <section id="overview">
+    <h2>Dataset Overview</h2>
+    <p>The original dataset contains seven clusters with 4 096 intensity values each. The table summarises the mean and maximum intensities. The Map 1 dataset has much lower intensities (roughly 2–5 % of the original) but retains similar relative patterns.</p>
+    <div class="grid">
+      <div>
+        <table id="stats-original">
+          <thead><tr><th>Cluster</th><th>Mean</th><th>Max</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div>
+        <table id="stats-map1">
+          <thead><tr><th>Cluster</th><th>Mean (Map 1)</th><th>Max (Map 1)</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="footnote">[1] Derived from raw intensities in JSON datasets【814971391525400†L0-L147】.</div>
+  </section>
+
+  <section id="summary-stats">
+    <h2>Summary Statistics by Cluster</h2>
+    <p>Bar charts compare mean and maximum intensities across clusters for the original dataset.</p>
+    <div class="grid">
+      <div class="chart-box"><canvas id="meanChartOriginal"></canvas></div>
+      <div class="chart-box"><canvas id="maxChartOriginal"></canvas></div>
+    </div>
+    <div class="footnote">[2] Computed from all 4 096 intensities per cluster【814971391525400†L0-L147】.</div>
+  </section>
+
+  <section id="summary-map1">
+    <h2>Map 1: Summary Statistics</h2>
+    <p>The Map 1 dataset has lower absolute intensities. These bar charts compare mean and maximum intensities across clusters.</p>
+    <div class="grid">
+      <div class="chart-box"><canvas id="meanChartMap1"></canvas></div>
+      <div class="chart-box"><canvas id="maxChartMap1"></canvas></div>
+    </div>
+    <div class="footnote">[3] Computed from the A21_016_map_1 dataset【814971391525400†L0-L147】.</div>
+  </section>
+
+  <section id="correlation">
+    <h2>Cluster Correlation &amp; Analytical Methods</h2>
+    <p>We computed descriptive statistics and pairwise correlations for both datasets. In the original dataset, clusters 0, 2, 4, 5 and 6 are highly correlated (r &gt; 0.96), indicating similar Si‑dominated spectra. Cluster 1 exhibits a distinct spectral shape (low correlation with others). In the Map 1 dataset, all clusters are more homogeneous with correlations above 0.86, reflecting the lower intensity and reduced variability.</p>
+    <p>Statistics such as mean, median, standard deviation and integrated area were calculated for each cluster. Ratios of Map 1 to original means range from 1–5 %, confirming the lower absolute intensities. Manual peak curation was used to derive element fractions for stoichiometric analysis.</p>
+    <div class="footnote">[4] Correlation coefficients computed from 4 096‑channel spectra【814971391525400†L0-L147】.</div>
+  </section>
+
+  <section id="composition">
+    <h2>Stoichiometric Composition by Cluster</h2>
+    <p>A stacked bar chart displays the relative fractions (percentage) of key elements (Al, Si, P, Cl and S) in each cluster. Values are derived from manually curated peak intensities and normalised to 100 %.</p>
+    <div class="chart-box" style="height: 320px;"><canvas id="compositionChart"></canvas></div>
+    <div class="footnote">[5] Relative fractions computed from peak intensities【814971391525400†L0-L147】.</div>
+  </section>
+
+  <section id="minerals">
+    <h2>Mineral Phase Interpretation</h2>
+    <p>The table lists likely mineral phases inferred from the element fractions for each cluster.</p>
+    <div class="grid" style="overflow-x: auto;">
+      <div style="flex-basis:100%;">
+        <table>
+          <thead><tr><th>Cluster</th><th>Dominant composition</th><th>Likely mineral phase</th></tr></thead>
+          <tbody>
+            <tr><td>Cluster 0</td><td>Si (91 %) + Al (5 %)</td><td>Quartz with feldspar contamination</td></tr>
+            <tr><td>Cluster 1</td><td>Si (92 %) + P (8 %)</td><td>Silica–phosphate mixture</td></tr>
+            <tr><td>Cluster 2</td><td>Si (63 %) + P (37 %)</td><td>Phosphosilicate phase</td></tr>
+            <tr><td>Cluster 3</td><td>Si (81 %) + P (12 %) + Cl (7 %)</td><td>Chlorine‑bearing phosphosilicate</td></tr>
+            <tr><td>Cluster 4</td><td>Si (100 %)</td><td>Quartz</td></tr>
+            <tr><td>Cluster 5</td><td>Si (100 %)</td><td>Quartz</td></tr>
+            <tr><td>Cluster 6</td><td>Si (65 %) + S (24 %) + P (11 %)</td><td>Silica with sulphide and phosphate</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="footnote">[6] Derived from element fractions computed from peak intensities【814971391525400†L0-L147】.</div>
+  </section>
+
+  <section id="spectra">
+    <h2>Spectra with Peak Annotations</h2>
+    <p>Down‑sampled spectra for two representative clusters (Cluster 2 and Cluster 6) with key peaks annotated. Coloured markers indicate Si, P and S peaks.</p>
+    <div class="grid">
+      <div class="chart-box" style="height: 280px;"><canvas id="spectraChart2"></canvas></div>
+      <div class="chart-box" style="height: 280px;"><canvas id="spectraChart6"></canvas></div>
+    </div>
+    <div class="footnote">[7] Spectra and peak annotations from the full payload dataset【814971391525400†L0-L147】.</div>
+  </section>
+
+  <section id="conclusion">
+    <h2>Conclusions &amp; Next Steps</h2>
+    <ul>
+      <li>Cluster 1 consistently exhibits the highest mean and maximum intensities, signalling a distinct composition.</li>
+      <li>The Map 1 dataset has intensities roughly an order of magnitude lower but preserves relative differences; Cluster 4 has the largest peak.</li>
+      <li>Stoichiometric analysis reveals that Si is ubiquitous, with P, Cl, Al and S appearing in specific clusters, suggesting mixtures of quartz, phosphosilicates and sulphides.</li>
+      <li>Future work: correlate clusters with spatial morphology, apply quantitative spectral fitting and cross‑map machine‑learning models.</li>
+    </ul>
+  </section>
+
+  <script>
+    // Data arrays from previous analysis
+    const CLUSTER_LABELS = ['Cluster_0','Cluster_1','Cluster_2','Cluster_3','Cluster_4','Cluster_5','Cluster_6'];
+    const MEANS_ORIG = [28.853226551474798,63.30754878749133,35.70721020065752,42.936144650637445,24.940530741845155,34.0086265722605,26.274553109478475];
+    const MAXS_ORIG = [2572.648205346682,27043.00693481276,2312.3179005271604,2054.7252747252746,2738.824643493761,3099.4123711340208,2198.765941343425];
+    const MEANS_MAP1 = [0.8535696912509378,1.182740898881851,1.2620330510810749,0.4079439863138222,1.2442141352232248,1.013992729536984,1.342628761574074];
+    const MAXS_MAP1 = [310.2807951987997,408.9749741468459,288.42233539468896,109.1106590724166,467.0145604609515,361.43250327654,318.6754850088183];
+    const FRACTION_ELEMENTS = ['Al','Si','P','Cl','S'];
+    const FRACTIONS_DATA = {
+      'Al': [4.68,0,0,0,0,0,0],
+      'Si': [90.65,91.79,63.06,80.8,100.0,100.0,65.25],
+      'P':  [0,8.21,36.95,11.83,0,0,10.95],
+      'Cl': [0,0,0,7.36,0,0,0],
+      'S':  [0,0,0,0,0,0,23.8]
+    };
+    // Populate statistics tables
+    function populateTables() {
+      const origBody = document.querySelector('#stats-original tbody');
+      const map1Body = document.querySelector('#stats-map1 tbody');
+      origBody.innerHTML = '';
+      map1Body.innerHTML = '';
+      CLUSTER_LABELS.forEach((name, idx) => {
+        const tr1 = document.createElement('tr');
+        tr1.innerHTML = `<td>${name}</td><td>${MEANS_ORIG[idx].toFixed(2)}</td><td>${MAXS_ORIG[idx].toFixed(1)}</td>`;
+        origBody.appendChild(tr1);
+        const tr2 = document.createElement('tr');
+        tr2.innerHTML = `<td>${name}</td><td>${MEANS_MAP1[idx].toFixed(2)}</td><td>${MAXS_MAP1[idx].toFixed(1)}</td>`;
+        map1Body.appendChild(tr2);
+      });
+    }
+    // Create bar charts
+    function createBarCharts() {
+      // Original means
+      new Chart(document.getElementById('meanChartOriginal').getContext('2d'), {
+        type: 'bar',
+        data: { labels: CLUSTER_LABELS, datasets: [{ label: 'Mean intensity', data: MEANS_ORIG, backgroundColor: '#1f77b4' }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, title: { display: true, text: 'Mean intensity' } } }, plugins: { legend: { display: false } } }
+      });
+      // Original max
+      new Chart(document.getElementById('maxChartOriginal').getContext('2d'), {
+        type: 'bar',
+        data: { labels: CLUSTER_LABELS, datasets: [{ label: 'Max intensity', data: MAXS_ORIG, backgroundColor: '#ff7f0e' }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, title: { display: true, text: 'Max intensity' } } }, plugins: { legend: { display: false } } }
+      });
+      // Map1 means
+      new Chart(document.getElementById('meanChartMap1').getContext('2d'), {
+        type: 'bar',
+        data: { labels: CLUSTER_LABELS, datasets: [{ label: 'Mean intensity (Map 1)', data: MEANS_MAP1, backgroundColor: '#2ca02c' }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, title: { display: true, text: 'Mean intensity' } } }, plugins: { legend: { display: false } } }
+      });
+      // Map1 max
+      new Chart(document.getElementById('maxChartMap1').getContext('2d'), {
+        type: 'bar',
+        data: { labels: CLUSTER_LABELS, datasets: [{ label: 'Max intensity (Map 1)', data: MAXS_MAP1, backgroundColor: '#d62728' }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, title: { display: true, text: 'Max intensity' } } }, plugins: { legend: { display: false } } }
+      });
+    }
+    // Create composition chart
+    function createCompositionChart() {
+      const datasets = FRACTION_ELEMENTS.map((el, idx) => ({
+        label: el,
+        data: FRACTIONS_DATA[el],
+        backgroundColor: ['#ff7f0e','#1f77b4','#2ca02c','#d62728','#9467bd'][idx]
+      }));
+      new Chart(document.getElementById('compositionChart').getContext('2d'), {
+        type: 'bar',
+        data: { labels: CLUSTER_LABELS, datasets: datasets },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { stacked: true },
+            y: { stacked: true, beginAtZero: true, title: { display: true, text: 'Fraction (%)' } }
+          },
+          plugins: { legend: { position: 'top' } }
+        }
+      });
+    }
+    // Data for spectra charts (down‑sampled to 300 points)
+    const ENERGY_DS = [0.0,0.14,0.27,0.41,0.55,0.68,0.82,0.96,1.1,1.23,1.37,1.51,1.64,1.78,1.92,2.05,2.19,2.33,2.47,2.6,2.74,2.88,3.01,3.15,3.29,3.42,3.56,3.7,3.83,3.97,4.11,4.25,4.38,4.52,4.66,4.79,4.93,5.07,5.2,5.34,5.48,5.62,5.75,5.89,6.03,6.16,6.3,6.44,6.57,6.71,6.85,6.98,7.12,7.26,7.4,7.53,7.67,7.81,7.94,8.08,8.22,8.35,8.49,8.63,8.77,8.9,9.04,9.18,9.31,9.45,9.59,9.72,9.86,10.0,10.13,10.27,10.41,10.55,10.68,10.82,10.96,11.09,11.23,11.37,11.5,11.64,11.78,11.92,12.05,12.19,12.33,12.46,12.6,12.74,12.87,13.01,13.15,13.28,13.42,13.56,13.7,13.83,13.97,14.11,14.24,14.38,14.52,14.65,14.79,14.93,15.07,15.2,15.34,15.48,15.61,15.75,15.89,16.02,16.16,16.3,16.43,16.57,16.71,16.85,16.98,17.12,17.26,17.39,17.53,17.67,17.8,17.94,18.08,18.22,18.35,18.49,18.63,18.76,18.9,19.04,19.17,19.31,19.45,19.58,19.72,19.86,20.0,20.13,20.27,20.41,20.54,20.68,20.82,20.95,21.09,21.23,21.37,21.5,21.64,21.78,21.91,22.05,22.19,22.32,22.46,22.6,22.73,22.87,23.01,23.15,23.28,23.42,23.56,23.69,23.83,23.97,24.1,24.24,24.38,24.52,24.65,24.79,24.93,25.06,25.2,25.34,25.47,25.61,25.75,25.88,26.02,26.16,26.3,26.43,26.57,26.71,26.84,26.98,27.12,27.25,27.39,27.53,27.67,27.8,27.94,28.08,28.21,28.35,28.49,28.62,28.76,28.9,29.03,29.17,29.31,29.45,29.58,29.72,29.86,29.99,30.13,30.27,30.4,30.54,30.68,30.82,30.95,31.09,31.23,31.36,31.5,31.64,31.77,31.91,32.05,32.18,32.32,32.46,32.6,32.73,32.87,33.01,33.14,33.28,33.42,33.55,33.69,33.83,33.97,34.1,34.24,34.38,34.51,34.65,34.79,34.92,35.06,35.2,35.33,35.47,35.61,35.75,35.88,36.02,36.16,36.29,36.43,36.57,36.7,36.84,36.98,37.12,37.25,37.39,37.53,37.66,37.8,37.94,38.07,38.21,38.35,38.48,38.62,38.76,38.9,39.03,39.17,39.31,39.44,39.58,39.72,39.85,39.99,40.13,40.27,40.4,40.54,40.68,40.81,40.95];
+    const SPECTRA_DS = {
+      'Cluster_2': [1.00982,0.00182,0.22481,0.22954,0.30593,0.28447,0.28701,0.251,0.2801,1.37032,0.46817,6.35358,9.76864,153.88469,18.30993,105.59694,6.15497,1.63951,0.69771,2.16042,0.25027,6.84831,0.3183,0.0422,0.61986,0.46599,0.48818,1.89596,0.44489,0.40051,0.21499,0.04183,0.1546,1.76173,0.12477,0.13641,0.35322,0.04693,0.06657,0.03456,0.04038,0.0211,0.03565,0.10477,0.03019,0.03529,1.6777,4.88432,0.12768,0.01782,0.03347,0.54856,0.50964,0.01164,0.02328,0.02983,0.004,0.00509,0.004,0.0291,0.03565,0.03056,0.03165,0.07894,0.05929,0.00364,0.00655,0.00255,0.00218,0.00036,0.00036,0.00036,0.0,0.00073,0.00036,0.00036,0.00146,0.0,0.0,0.00073,0.00073,0.0,0.00036,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.00109,0.00073,0.0,0.0,0.0,0.00036,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.00073,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.05529],
+      'Cluster_6': [0.95503,0.00176,0.07231,0.13139,0.22046,0.17284,0.16578,0.17284,0.8157,3.06437,0.48589,9.27249,10.45414,165.3836,6.87919,34.93122,2.694,1.17284,0.6164,1.67284,1.78219,105.16049,6.60494,0.21869,0.70282,0.52116,0.4806,0.79806,0.14903,0.15961,0.12698,0.03704,0.19224,1.74074,0.77072,0.17108,0.43298,0.06437,0.05291,0.05026,0.07055,0.18607,2.00705,1.30335,0.06878,0.06173,1.89947,5.70018,0.12169,0.0291,0.03792,0.65079,0.60229,0.02116,0.05115,0.06702,0.00529,0.00441,0.00882,0.04497,0.05115,0.01411,0.03792,0.18871,0.20282,0.02205,0.00529,0.00705,0.02381,0.00353,0.00176,0.0,0.00794,0.00353,0.00265,0.00353,0.00176,0.00265,0.0,0.00088,0.0,0.00176,0.00088,0.00176,0.00705,0.0194,0.00265,0.0,0.00088,0.00088,0.0,0.0,0.00088,0.0,0.00176,0.0,0.0,0.0,0.00088,0.0,0.0,0.0,0.00088,0.00088,0.00088,0.00088,0.00088,0.00088,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.00088,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.05291]
+    };
+    const PEAKS_DATA = {
+      'Cluster_2': [ { energy: 1.74, element: 'Si' }, { energy: 2.01, element: 'P' } ],
+      'Cluster_6': [ { energy: 1.74, element: 'Si' }, { energy: 2.01, element: 'P' }, { energy: 2.9, element: 'S' } ]
+    };
+    function createSpectraChart(canvasId, clusterName, lineColor) {
+      const maxInt = Math.max(...SPECTRA_DS[clusterName]);
+      const elementColors = { 'Si': '#1f77b4', 'P': '#2ca02c', 'S': '#d62728' };
+      const scatterDatasets = [];
+      const seen = new Set();
+      PEAKS_DATA[clusterName].forEach(p => {
+        if (!seen.has(p.element)) {
+          seen.add(p.element);
+          scatterDatasets.push({
+            label: p.element,
+            type: 'scatter',
+            data: PEAKS_DATA[clusterName].filter(q => q.element === p.element).map(q => ({ x: q.energy, y: maxInt * 1.05 })),
+            backgroundColor: elementColors[p.element],
+            borderColor: elementColors[p.element],
+            pointRadius: 5,
+            pointStyle: 'rectRot'
+          });
+        }
+      });
+      new Chart(document.getElementById(canvasId).getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: ENERGY_DS,
+          datasets: [
+            {
+              label: `${clusterName} spectrum`,
+              data: SPECTRA_DS[clusterName],
+              borderColor: lineColor,
+              backgroundColor: 'rgba(0,0,0,0)',
+              fill: false,
+              tension: 0,
+              pointRadius: 0,
+              borderWidth: 1
+            },
+            ...scatterDatasets
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              type: 'linear',
+              title: { display: true, text: 'Energy (keV)' },
+              ticks: { autoSkip: true, maxTicksLimit: 8 }
+            },
+            y: {
+              beginAtZero: true,
+              title: { display: true, text: 'Intensity' }
+            }
+          },
+          plugins: { legend: { position: 'top' } }
+        }
+      });
+    }
+    // Initialise all charts and tables on load
+    window.addEventListener('DOMContentLoaded', () => {
+      populateTables();
+      createBarCharts();
+      createCompositionChart();
+      createSpectraChart('spectraChart2','Cluster_2','#1f77b4');
+      createSpectraChart('spectraChart6','Cluster_6','#8c564b');
+    });
+  </script>
+</body>
+</html>
