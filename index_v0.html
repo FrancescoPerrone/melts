@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Visual Analytics Lab · Landing</title>
+  <title>MELTS Visual Analytics · Landing</title>
   <style>
     :root{
       --bg:#0e0f12;          /* deep charcoal */
@@ -19,21 +19,6 @@
       --radius:16px;
       --shadow: 0 10px 30px rgba(0,0,0,.45);
       --border: 1px solid rgba(255,255,255,.06);
-    }
-    /* Light theme override */
-    [data-theme="light"]{
-      --bg:#f6f7fb;
-      --panel:#ffffff;
-      --panel-2:#f3f5fa;
-      --text:#0e0f12;
-      --muted:#596277;
-      --accent:#0ea5e9;
-      --accent-2:#8b5cf6;
-      --ok:#059669;
-      --warn:#ca8a04;
-      --danger:#dc2626;
-      --shadow: 0 8px 24px rgba(0,0,0,.08);
-      --border: 1px solid rgba(0,0,0,.08);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -51,16 +36,10 @@
       border-bottom:var(--border);
       backdrop-filter:saturate(120%) blur(10px);
     }
-    [data-theme="light"] header{background:linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.7) 60%, rgba(255,255,255,0))}
     .brand{display:flex; gap:14px; align-items:center}
-    .logo{width:34px; height:34px; border-radius:10px; background:linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow:inset 0 0 10px rgba(255,255,255,.25), 0 8px 20px rgba(122,226,255,.25); overflow:hidden; display:grid; place-items:center}
-    .logo img{display:block; width:100%; height:100%; object-fit:cover}
+    .logo{width:34px; height:34px; border-radius:10px; background:linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow:inset 0 0 10px rgba(255,255,255,.25), 0 8px 20px rgba(122,226,255,.25)}
     .title{font-weight:700; letter-spacing:.4px}
     .subtitle{color:var(--muted); font-size:.9rem}
-    header .controls{display:flex; align-items:center; gap:14px}
-    header .actions{display:flex; gap:8px}
-    header .actions button{-webkit-appearance:none; appearance:none; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:var(--text); padding:8px 10px; border-radius:10px; font-size:.9rem; cursor:pointer; transition:.12s background, .12s border-color, .12s transform}
-    header .actions button:hover{background:rgba(255,255,255,.08); border-color:rgba(122,226,255,.35)}
 
     .wrap{display:grid; grid-template-columns: 320px 1fr; gap:16px; height:calc(100% - 76px); padding:16px}
 
@@ -93,7 +72,7 @@
     .toolbar .url{flex:1; min-width:120px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.12); color:var(--text); padding:8px 12px; border-radius:10px; font-size:.88rem; outline:none}
 
     .stage{position:relative; flex:1; background:radial-gradient(800px 380px at 90% -20%, rgba(122,226,255,.05), transparent), var(--panel-2)}
-    .stage iframe{position:absolute; inset:0; width:100%; height:100%; border:0; background:#fff}
+    .stage iframe{position:absolute; inset:0; width:100%; height:100%; border:0; background:var(--panel)}
 
     .welcome{position:absolute; inset:0; display:grid; place-items:center; padding:40px; text-align:center}
     .welcome .box{max-width:680px; background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01)); border:var(--border); border-radius:20px; padding:28px 26px; box-shadow:var(--shadow)}
@@ -116,33 +95,13 @@
 <body>
   <header>
     <div class="brand">
-      <div class="logo" aria-hidden="true" title="CogiteQ">
-        <svg viewBox="0 0 64 64" width="34" height="34" aria-hidden="true">
-          <defs>
-            <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0" stop-color="#7ae2ff"/>
-              <stop offset="1" stop-color="#b38cff"/>
-            </linearGradient>
-          </defs>
-          <rect x="0" y="0" width="64" height="64" rx="14" fill="url(#g)"/>
-          <path d="M38.5 20.5a12 12 0 1 0 0 23M40 44l6 6" fill="none" stroke="#0e0f12" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="38.5" cy="32" r="12" fill="none" stroke="#0e0f12" stroke-width="4"/>
-        </svg>
-      </div>
+      <div class="logo" aria-hidden="true"></div>
       <div>
-        <div class="title">Visual Analytics Lab</div>
+        <div class="title">MELTS Visual Analytics</div>
         <div class="subtitle">Landing · Local dev sandbox</div>
       </div>
     </div>
-    <div class="controls">
-      <div class="subtitle">GUI-first navigation · Same-origin iframe preview</div>
-      <div class="actions">
-        <button id="themeToggle" title="Toggle light/dark theme">🌓 Theme</button>
-        <input id="logoUpload" type="file" accept="image/svg+xml,image/png,image/jpeg" style="display:none" />
-        <button id="logoBtn" title="Upload custom logo (SVG/PNG/JPG)">⬆️ Logo</button>
-        <button id="logoReset" title="Reset to default logo">↺ Reset</button>
-      </div>
-    </div>
+    <div class="subtitle">GUI-first navigation · Same-folder iframe preview</div>
   </header>
 
   <div class="wrap">
@@ -181,7 +140,7 @@
         <iframe id="frame" name="preview" sandbox="allow-same-origin allow-scripts allow-forms allow-pointer-lock allow-downloads"></iframe>
         <div class="welcome" id="welcome">
           <div class="box">
-            <h2>Welcome to the Visual Analytics Lab landing.</h2>
+            <h2>Welcome to the MELTS Visual Analytics landing.</h2>
             <p>Select a module on the left to preview it here. You can <span class="kbd">Back</span>/<span class="kbd">Forward</span>, <span class="kbd">Reload</span>, or <span class="kbd">Open in new tab</span>. Keyboard: <span class="kbd">Alt+←</span>, <span class="kbd">Alt+→</span>, <span class="kbd">Ctrl+R</span>.</p>
           </div>
         </div>
@@ -196,17 +155,42 @@
     // ---- App registry ----
     // Current paths (no renames yet). Update later when you adopt the new names.
     const APPS = [
-      { id: 'cluster_explorer_current', title: 'Cluster Explorer (current)', path: './cluster_explorer.html', desc: 'Full cluster explorer (root).', tags: ['root','explorer'] },
-      { id: 'peaks_explorer_current',   title: 'Peaks Explorer (current)',   path: './peaks_explorer.html', desc: 'Peaks annotation & inspection.',     tags: ['peaks','EDS'] },
-      { id: 'testbed_current',          title: 'Testbed (ms_master)',        path: './peaks/ms_master/index.html', desc: 'Master sandbox for layout & interactions.', tags: ['sandbox','prototype'] },
-      { id: 'eds_cluster_scroll',       title: 'EDS Cluster Scroll',         path: './peaks/reports/eds_cluster_scroll.html', desc: 'Scrolling EDS narrative (style reference).', tags: ['report','scroll'] },
-      { id: 'cluster_visualizer_final_layout', title: 'Cluster Visualizer (final layout)', path: './cluster_visualizer_final_layout.html', desc: 'Final layout draft at project root.', tags: ['layout','root'] }
+      {
+        id: 'cluster_explorer_current',
+        title: 'Cluster Explorer (current)',
+        path: './cluster_explorer.html', // to be renamed -> cluster_explorer.html
+        desc: 'Full cluster explorer (root).',
+        tags: ['root','explorer']
+      },
+      {
+        id: 'peaks_explorer_current',
+        title: 'Peaks Explorer (current)',
+        path: './peaks/index.html', // to be renamed -> peaks_explorer.html
+        desc: 'Peaks annotation & inspection.',
+        tags: ['peaks','EDS']
+      },
+      {
+        id: 'testbed_current',
+        title: 'Testbed (ms_master)',
+        path: './peaks/ms_master/index.html', // becomes -> test.html (or relocate)
+        desc: 'Master sandbox for layout & interactions.',
+        tags: ['sandbox','prototype']
+      },
+      {
+        id: 'eds_cluster_scroll',
+        title: 'EDS Cluster Scroll',
+        path: './peaks/reports/eds_cluster_scroll.html',
+        desc: 'Scrolling EDS narrative (style reference).',
+        tags: ['report','scroll']
+      },
+      {
+        id: 'cluster_visualizer_final_layout',
+        title: 'Cluster Visualizer (final layout)',
+        path: './cluster_visualizer_final_layout.html',
+        desc: 'Final layout draft at project root.',
+        tags: ['layout','root']
+      }
     ];
-
-    // Theme persistence
-    const THEME_KEY = 'va_theme';
-    const setTheme = (t)=> document.documentElement.setAttribute('data-theme', t);
-    setTheme(localStorage.getItem(THEME_KEY) || 'dark');
 
     // ---- UI bootstrap ----
     const appsList = document.getElementById('apps');
@@ -217,37 +201,6 @@
     const btnForward = document.getElementById('btnForward');
     const btnReload = document.getElementById('btnReload');
     const btnOpen = document.getElementById('btnOpen');
-    const themeToggle = document.getElementById('themeToggle');
-    const logoBtn = document.getElementById('logoBtn');
-    const logoReset = document.getElementById('logoReset');
-    const logoUpload = document.getElementById('logoUpload');
-    const logoNode = document.querySelector('.logo');
-
-    themeToggle.addEventListener('click', ()=>{
-      const t = (document.documentElement.getAttribute('data-theme') === 'dark') ? 'light' : 'dark';
-      setTheme(t); localStorage.setItem(THEME_KEY, t);
-    });
-
-    // Logo upload / reset
-    function setLogoSrc(src){ logoNode.innerHTML = `<img alt="logo" src="${src}">`; }
-    logoBtn.addEventListener('click', ()=> logoUpload.click());
-    logoUpload.addEventListener('change', (e)=>{
-      const f = e.target.files && e.target.files[0]; if(!f) return;
-      const url = URL.createObjectURL(f); setLogoSrc(url);
-      // Note: blob URLs won’t persist across sessions, but we keep last selection during the tab lifetime.
-      sessionStorage.setItem('va_logo_src', url);
-    });
-    logoReset.addEventListener('click', ()=>{
-      logoNode.innerHTML = `
-        <svg viewBox="0 0 64 64" width="34" height="34" aria-hidden="true">
-          <defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#7ae2ff"/><stop offset="1" stop-color="#b38cff"/></linearGradient></defs>
-          <rect x="0" y="0" width="64" height="64" rx="14" fill="url(#g)"/>
-          <path d="M38.5 20.5a12 12 0 1 0 0 23M40 44l6 6" fill="none" stroke="#0e0f12" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="38.5" cy="32" r="12" fill="none" stroke="#0e0f12" stroke-width="4"/>
-        </svg>`;
-      sessionStorage.removeItem('va_logo_src');
-    });
-    const savedLogo = sessionStorage.getItem('va_logo_src'); if (savedLogo) setLogoSrc(savedLogo);
 
     // Render cards
     APPS.forEach((app, idx)=>{
@@ -261,7 +214,7 @@
         <div>
           <h4>${app.title}</h4>
           <p>${app.desc}</p>
-          <div class="meta">${app.tags.map(t=>`<span class=\"tag\">${t}</span>`).join('')}</div>
+          <div class="meta">${app.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
         </div>`;
       card.addEventListener('click', ()=> load(app.path));
       card.addEventListener('keypress', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); load(app.path);} });
@@ -272,7 +225,9 @@
     const stack = []; let cursor = -1;
 
     function load(path){
+      // If navigating within the stack and same as current, ignore
       if (cursor >= 0 && stack[cursor] === path) return;
+      // Truncate forward history when navigating anew
       if (cursor < stack.length - 1) stack.splice(cursor + 1);
       stack.push(path); cursor = stack.length - 1;
       frame.src = path; urlBox.value = location.origin ? new URL(path, location.href).href : path;
@@ -308,6 +263,7 @@
     const initial = APPS.find(a => ('#'+a.id) === location.hash);
     if (initial) load(initial.path);
 
+    // Expose small helper for future expansion (e.g., external links can call window.loadApp('id'))
     window.loadApp = function(id){ const a = APPS.find(x=>x.id===id); if(a) load(a.path); }
 
     reflectButtons();
