@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MELTS Visual Analytics · Landing</title>
+  <style>
+    :root{
+      --bg:#0e0f12;          /* deep charcoal */
+      --panel:#151821;       /* panel surface */
+      --panel-2:#10131a;     /* alt surface */
+      --text:#e7ebf3;        /* near-white */
+      --muted:#9aa3b2;       /* muted text */
+      --accent:#7ae2ff;      /* cyan accent */
+      --accent-2:#b38cff;    /* violet accent */
+      --ok:#00d386;
+      --warn:#ffce3a;
+      --danger:#ff6b6b;
+      --radius:16px;
+      --shadow: 0 10px 30px rgba(0,0,0,.45);
+      --border: 1px solid rgba(255,255,255,.06);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--text); background:radial-gradient(1200px 600px at 10% -10%, rgba(122,226,255,.08), transparent),
+                                    radial-gradient(1000px 800px at 120% 10%, rgba(179,140,255,.08), transparent),
+                                    var(--bg);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      letter-spacing:.2px;
+    }
+    header{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:18px 22px; position:sticky; top:0; z-index:5;
+      background:linear-gradient(180deg, rgba(15,17,22,.9), rgba(15,17,22,.6) 60%, rgba(15,17,22,0));
+      border-bottom:var(--border);
+      backdrop-filter:saturate(120%) blur(10px);
+    }
+    .brand{display:flex; gap:14px; align-items:center}
+    .logo{width:34px; height:34px; border-radius:10px; background:linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow:inset 0 0 10px rgba(255,255,255,.25), 0 8px 20px rgba(122,226,255,.25)}
+    .title{font-weight:700; letter-spacing:.4px}
+    .subtitle{color:var(--muted); font-size:.9rem}
+
+    .wrap{display:grid; grid-template-columns: 320px 1fr; gap:16px; height:calc(100% - 76px); padding:16px}
+
+    /* Sidebar */
+    .side{background:linear-gradient(180deg, rgba(255,255,255,.02), transparent), var(--panel); border:var(--border); border-radius:var(--radius); box-shadow:var(--shadow); display:flex; flex-direction:column}
+    .section{padding:14px 14px 6px; font-size:.78rem; color:var(--muted); text-transform:uppercase; letter-spacing:.16rem}
+    .list{padding:6px 10px 16px; display:grid; gap:8px}
+
+    .card{position:relative; border:var(--border); border-radius:14px; background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)); padding:12px; display:flex; gap:12px; align-items:flex-start; cursor:pointer; transition:.15s transform, .15s border-color, .15s background;
+      box-shadow:0 3px 12px rgba(0,0,0,.25)}
+    .card:hover{transform:translateY(-1px); border-color:rgba(122,226,255,.35); background:linear-gradient(180deg, rgba(122,226,255,.05), rgba(255,255,255,.02))}
+    .card .badge{min-width:28px; height:28px; border-radius:8px; display:grid; place-items:center; font-weight:700; font-size:.8rem; background:rgba(122,226,255,.15); border:1px solid rgba(122,226,255,.35)}
+    .card h4{margin:0; font-size:1rem}
+    .card p{margin:4px 0 0; font-size:.86rem; color:var(--muted)}
+
+    .meta{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap}
+    .tag{font-size:.72rem; color:var(--muted); border:1px dashed rgba(255,255,255,.14); padding:2px 8px; border-radius:999px}
+
+    /* Main */
+    .main{position:relative; border-radius:var(--radius); border:var(--border); background:var(--panel-2); box-shadow:var(--shadow); display:flex; flex-direction:column; overflow:hidden}
+
+    .toolbar{display:flex; align-items:center; gap:8px; padding:10px; border-bottom:var(--border); background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01))}
+    .toolbar button, .toolbar a.btn{
+      -webkit-appearance:none; appearance:none; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04);
+      color:var(--text); padding:8px 10px; border-radius:10px; font-size:.9rem; cursor:pointer; transition:.12s background, .12s border-color, .12s transform;
+    }
+    .toolbar button:hover, .toolbar a.btn:hover{background:rgba(255,255,255,.08); border-color:rgba(122,226,255,.35)}
+    .toolbar button:active{transform:translateY(1px)}
+    .toolbar .sep{width:1px; height:28px; background:rgba(255,255,255,.08); margin:0 6px}
+    .toolbar .url{flex:1; min-width:120px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.12); color:var(--text); padding:8px 12px; border-radius:10px; font-size:.88rem; outline:none}
+
+    .stage{position:relative; flex:1; background:radial-gradient(800px 380px at 90% -20%, rgba(122,226,255,.05), transparent), var(--panel-2)}
+    .stage iframe{position:absolute; inset:0; width:100%; height:100%; border:0; background:var(--panel)}
+
+    .welcome{position:absolute; inset:0; display:grid; place-items:center; padding:40px; text-align:center}
+    .welcome .box{max-width:680px; background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01)); border:var(--border); border-radius:20px; padding:28px 26px; box-shadow:var(--shadow)}
+    .welcome h2{margin:0 0 8px}
+    .welcome p{margin:0; color:var(--muted)}
+
+    /* Footer */
+    footer{padding:10px 16px; color:var(--muted); font-size:.85rem}
+
+    /* Small extras */
+    .kbd{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size:.82rem; padding:2px 6px; border-radius:6px; border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.04)}
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .wrap{grid-template-columns:1fr}
+      .toolbar .url{display:none}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <div>
+        <div class="title">MELTS Visual Analytics</div>
+        <div class="subtitle">Landing · Local dev sandbox</div>
+      </div>
+    </div>
+    <div class="subtitle">GUI-first navigation · Same-folder iframe preview</div>
+  </header>
+
+  <div class="wrap">
+    <!-- Sidebar navigation -->
+    <aside class="side" aria-label="Applications">
+      <div class="section">Visual Modules</div>
+      <div class="list" id="apps"></div>
+
+      <div class="section">Utilities</div>
+      <div class="list">
+        <div class="card" aria-disabled="true" title="Coming soon – placeholder only">
+          <div class="badge">⏳</div>
+          <div>
+            <h4>File Loader (coming soon)</h4>
+            <p>Load JSON spectra or peak maps to augment the explorers.</p>
+            <div class="meta">
+              <span class="tag">planned</span>
+              <span class="tag">extensible</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main preview area -->
+    <main class="main">
+      <div class="toolbar">
+        <button id="btnBack" title="Go back (Alt+←)">⟵ Back</button>
+        <button id="btnForward" title="Go forward (Alt+→)">Forward ⟶</button>
+        <span class="sep"></span>
+        <button id="btnReload" title="Reload (Ctrl+R)">Reload</button>
+        <a id="btnOpen" class="btn" href="#" target="_blank" rel="noopener">Open in new tab</a>
+        <input id="url" class="url" type="text" readonly value="about:blank" />
+      </div>
+      <div class="stage">
+        <iframe id="frame" name="preview" sandbox="allow-same-origin allow-scripts allow-forms allow-pointer-lock allow-downloads"></iframe>
+        <div class="welcome" id="welcome">
+          <div class="box">
+            <h2>Welcome to the MELTS Visual Analytics landing.</h2>
+            <p>Select a module on the left to preview it here. You can <span class="kbd">Back</span>/<span class="kbd">Forward</span>, <span class="kbd">Reload</span>, or <span class="kbd">Open in new tab</span>. Keyboard: <span class="kbd">Alt+←</span>, <span class="kbd">Alt+→</span>, <span class="kbd">Ctrl+R</span>.</p>
+          </div>
+        </div>
+      </div>
+      <footer>
+        Tip: This index file is designed to work with current filenames. When you rename pages later (e.g., <em>cluster_explorer.html</em>, <em>peaks_explorer.html</em>, <em>test.html</em>), update the mapping near the top of the script.
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // ---- App registry ----
+    // Current paths (no renames yet). Update later when you adopt the new names.
+    const APPS = [
+      {
+        id: 'cluster_explorer_current',
+        title: 'Cluster Explorer (current)',
+        path: './index.html', // to be renamed -> cluster_explorer.html
+        desc: 'Full cluster explorer (root).',
+        tags: ['root','explorer']
+      },
+      {
+        id: 'peaks_explorer_current',
+        title: 'Peaks Explorer (current)',
+        path: './peaks/index.html', // to be renamed -> peaks_explorer.html
+        desc: 'Peaks annotation & inspection.',
+        tags: ['peaks','EDS']
+      },
+      {
+        id: 'testbed_current',
+        title: 'Testbed (ms_master)',
+        path: './peaks/ms_master/index.html', // becomes -> test.html (or relocate)
+        desc: 'Master sandbox for layout & interactions.',
+        tags: ['sandbox','prototype']
+      },
+      {
+        id: 'eds_cluster_scroll',
+        title: 'EDS Cluster Scroll',
+        path: './peaks/reports/eds_cluster_scroll.html',
+        desc: 'Scrolling EDS narrative (style reference).',
+        tags: ['report','scroll']
+      },
+      {
+        id: 'cluster_visualizer_final_layout',
+        title: 'Cluster Visualizer (final layout)',
+        path: './cluster_visualizer_final_layout.html',
+        desc: 'Final layout draft at project root.',
+        tags: ['layout','root']
+      }
+    ];
+
+    // ---- UI bootstrap ----
+    const appsList = document.getElementById('apps');
+    const frame = document.getElementById('frame');
+    const urlBox = document.getElementById('url');
+    const welcome = document.getElementById('welcome');
+    const btnBack = document.getElementById('btnBack');
+    const btnForward = document.getElementById('btnForward');
+    const btnReload = document.getElementById('btnReload');
+    const btnOpen = document.getElementById('btnOpen');
+
+    // Render cards
+    APPS.forEach((app, idx)=>{
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.setAttribute('role','button');
+      card.setAttribute('tabindex','0');
+      card.dataset.path = app.path;
+      card.innerHTML = `
+        <div class="badge">${idx+1}</div>
+        <div>
+          <h4>${app.title}</h4>
+          <p>${app.desc}</p>
+          <div class="meta">${app.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+        </div>`;
+      card.addEventListener('click', ()=> load(app.path));
+      card.addEventListener('keypress', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); load(app.path);} });
+      appsList.appendChild(card);
+    });
+
+    // Keep a simple history stack (same-origin only)
+    const stack = []; let cursor = -1;
+
+    function load(path){
+      // If navigating within the stack and same as current, ignore
+      if (cursor >= 0 && stack[cursor] === path) return;
+      // Truncate forward history when navigating anew
+      if (cursor < stack.length - 1) stack.splice(cursor + 1);
+      stack.push(path); cursor = stack.length - 1;
+      frame.src = path; urlBox.value = location.origin ? new URL(path, location.href).href : path;
+      btnOpen.href = path; welcome.style.display = 'none';
+      reflectButtons();
+    }
+
+    function reflectButtons(){
+      btnBack.disabled = cursor <= 0;
+      btnForward.disabled = cursor >= stack.length - 1;
+      btnReload.disabled = cursor < 0;
+      btnOpen.classList.toggle('disabled', cursor < 0);
+    }
+
+    btnBack.addEventListener('click', ()=>{
+      if (cursor > 0){ cursor--; const path = stack[cursor]; frame.src = path; urlBox.value = path; btnOpen.href = path; }
+      reflectButtons();
+    });
+    btnForward.addEventListener('click', ()=>{
+      if (cursor < stack.length - 1){ cursor++; const path = stack[cursor]; frame.src = path; urlBox.value = path; btnOpen.href = path; }
+      reflectButtons();
+    });
+    btnReload.addEventListener('click', ()=>{ if (cursor >= 0){ frame.contentWindow ? frame.contentWindow.location.reload() : frame.src = stack[cursor]; }});
+
+    // Keyboard shortcuts
+    window.addEventListener('keydown', (e)=>{
+      if (e.altKey && e.key === 'ArrowLeft'){ e.preventDefault(); btnBack.click(); }
+      if (e.altKey && e.key === 'ArrowRight'){ e.preventDefault(); btnForward.click(); }
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'r'){ e.preventDefault(); btnReload.click(); }
+    });
+
+    // Optional: auto-load first app on hash
+    const initial = APPS.find(a => ('#'+a.id) === location.hash);
+    if (initial) load(initial.path);
+
+    // Expose small helper for future expansion (e.g., external links can call window.loadApp('id'))
+    window.loadApp = function(id){ const a = APPS.find(x=>x.id===id); if(a) load(a.path); }
+
+    reflectButtons();
+  </script>
+</body>
+</html>
