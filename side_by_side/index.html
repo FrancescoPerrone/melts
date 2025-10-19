@@ -3,26 +3,57 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Milestone 0 vs Milestone 1</title>
+    <title>Cluster Visualization Modes: Isolated View vs Contextual View</title>
     <style>
         html, body {
             margin: 0;
             padding: 0;
             height: 100%;
-            font-family: sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fafafa;
         }
         h2 {
             text-align: center;
-            padding: 1rem;
+            padding: 0.8rem;
             margin: 0;
-            background-color: #f8f8f8;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
+            color: #333;
+            background-color: #f1f1f1;
+            border-bottom: 1px solid #ddd;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 1rem;
+            background-color: #ffffff;
+            border-bottom: 1px solid #ddd;
+        }
+        .map-title {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #333;
+        }
+        .launch-button button {
+            background-color: #ff9800;
+            border: none;
+            padding: 8px 16px;
+            font-size: 14px;
+            color: white;
+            border-radius: 4px;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .launch-button button:hover {
+            background-color: #fb8c00;
         }
         .frame-container {
             display: flex;
             flex-direction: row;
             width: 100%;
-            height: calc(100vh - 8rem); /* reserve height for header + labels */
+            height: calc(100vh - 9rem);
             box-sizing: border-box;
         }
         .plot-wrapper {
@@ -40,25 +71,42 @@
         }
         .label {
             text-align: center;
-            font-size: 0.95rem;
+            font-size: 1rem;
+            font-weight: bold;
             padding: 0.5rem;
+            color: #222;
+        }
+        .caption {
+            text-align: center;
+            font-size: 0.9rem;
+            padding: 0.3rem;
             color: #444;
         }
     </style>
 </head>
 <body>
-    <h2>Interactive Comparison: Milestone 0 (Color) vs Milestone 1 (Color + Grayscale)</h2>
+    <h2>Cluster Visualization Modes</h2>
+    <div class="top-bar">
+        <div class="map-title">Map: A21 016 Map1</div>
+        <div class="launch-button">
+            <button onclick="window.open('phase_map_viewer.html', '_blank', 'width=900,height=700,resizable=yes')">
+                Launch Phase Map Viewer
+            </button>
+        </div>
+    </div>
     <div class="frame-container">
         <div class="plot-wrapper">
-            <iframe src="milestone0.html"></iframe>
-            <div class="label">
-                <strong>Milestone 0:</strong> Only the selected cluster is shown in color. All others are hidden.
+            <div class="label">Isolated View</div>
+            <iframe src="isolated_view.html"></iframe>
+            <div class="caption">
+                Only the selected cluster is shown in color; all others are hidden.
             </div>
         </div>
         <div class="plot-wrapper">
-            <iframe src="milestone1.html"></iframe>
-            <div class="label">
-                <strong>Milestone 1:</strong> All clusters are shown in grayscale. The selected one is highlighted in color.
+            <div class="label">Contextual View</div>
+            <iframe src="contextual_view.html"></iframe>
+            <div class="caption">
+                All clusters are shown in grayscale; the selected cluster is highlighted in color.
             </div>
         </div>
     </div>
